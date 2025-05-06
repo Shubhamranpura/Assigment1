@@ -1,0 +1,22 @@
+import encounter from "../../Userdata/encounters.json"
+const encounterData = JSON.parse(JSON.stringify(encounter))
+console.log(encounterData)
+let filterdata = []
+for(let user of encounterData.data){
+  let patientname = ""
+  if(user?.patient?.address?.home?.full_name.length<4){
+      patientname = user?.patient?.name
+  }
+  else{
+    patientname=user?.patient?.address?.home?.full_name
+  }
+  console.log(patientname)
+  filterdata.push({
+    consultation_type:user.consultation_type,
+    created_at:user.created_at,
+    full_name:patientname
+  })
+}
+// console.log(filterdata)
+export default filterdata
+
