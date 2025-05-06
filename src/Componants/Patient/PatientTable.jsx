@@ -91,7 +91,8 @@ function PatientTable({ patientData, refferalprogram, selgender }) {
               <tr key={index} className="odd:bg-gray-200 even:bg-white ">
                 <td className="p-3 text-[20px]">{ele.Email}</td>
                 <td className=" text-[20px]">
-                  <button onClick={()=>navigate(`/patient/patients-details?id=${ele.id}`)} >
+                  <button onClick={()=>navigate(`/patient/patients-details?id=${ele.id}`)} 
+                    className='hover:text-blue-600 hover:underline'>
                   {ele.Name}
                   </button>
                   </td>
