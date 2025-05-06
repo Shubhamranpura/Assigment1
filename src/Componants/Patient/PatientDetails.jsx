@@ -8,10 +8,16 @@ function PatientDetails() {
   const location = useLocation()
   const peramsdata = new URLSearchParams(location.search)
   // console.log(peramsdata.get('id'))
-  const patientindex = peramsdata.get('id')
-  // console.log(filterPatientData[patientindex])
+  let patientindex = peramsdata.get('id')
+  
+  console.log(filterPatientData)
 
-  const patient = filterPatientData[patientindex]
+  // console.log(filterPatientData[patientindex])
+  patientindex = +patientindex
+
+  const filterdetaildata = filterPatientData.filter((item)=>(item.id == patientindex) )
+  console.log(filterdetaildata)
+  const patient = filterdetaildata[0]
 
 
   return (

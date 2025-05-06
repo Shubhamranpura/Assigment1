@@ -10,7 +10,7 @@ for(let user of encounterData.data){
   else{
     patientname=user?.patient?.address?.home?.full_name
   }
-  console.log(patientname)
+
   filterdata.push({
     consultation_type:user.consultation_type,
     created_at:user.created_at,
