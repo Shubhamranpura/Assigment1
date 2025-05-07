@@ -1,33 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { BiData } from 'react-icons/bi';
 import { FaCaretLeft, FaCaretRight, FaSearch } from 'react-icons/fa';
+import CommonTable from '../Common/CommonTable';
 
-function Table({ startdate, enddate, consultanttype, data }) {
-  
-  const pageitem = 5
+function Table({ startDate, endDate, consultantType, Data }) {
+  console.log(startDate , endDate)
+  const pageItem = 5
 
-  const [page, setpage] = useState(1)
-  const [filterdata, setfilterdata] = useState([])
+  const [page, setPage] = useState(1)
+  const [filterData, setFilterData] = useState([])
   const [serchItem, setsearchItem] = useState('')
 
-  const handleserchitem = (e) => {
+  // console.log(consultantType)
+  
+  const handleSerchItem = (e) => {
     setsearchItem(e.target.value)
   }
 
   useEffect(() => {
-    const filterarray = (startdate, enddate, data, consultanttype, serchItem) => {
-      let finaldata = data;
-
-      if (consultanttype) {
-        finaldata = finaldata.filter(encounter =>
-          encounter.consultation_type.trim() === consultanttype.trim()
+    const filterarray = (startDate, endDate, Data, consultantType, serchItem) => {
+      let finalData = Data;
+      // console.log(consultantType)
+      if (consultantType) {
+        finalData = finalData.filter(encounter =>
+          encounter.consultation_type.trim()=== consultantType.trim()
         );
       }
-
-      if (startdate && enddate) {
-        const start = new Date(startdate);
-        const end = new Date(enddate);
-        finaldata = finaldata.filter(encounter => {
+         
+      console.log(startDate , endDate)
+      if (startDate && endDate) {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        finalData = finalData.filter(encounter => {
           const datestring = encounter.created_at.split(" ")[0];
           const encounterdate = new Date(datestring);
           return encounterdate >= start && encounterdate < end;
@@ -35,24 +39,28 @@ function Table({ startdate, enddate, consultanttype, data }) {
       }
 
       if (serchItem) {
-        finaldata = finaldata.filter(encounter => 
+        finalData = finalData.filter(encounter => 
           encounter.full_name.toLowerCase().includes(serchItem.toLowerCase())
         );
       }
-
-      setfilterdata(finaldata);
-      setpage(1);
+       
+      // console.log(filterData)
+      setFilterData(finalData);
+      setPage(1);
     };
 
-    filterarray(startdate, enddate, data, consultanttype, serchItem);
-  }, [startdate, enddate, consultanttype, data, serchItem]);
 
-  const totalPages = Math.ceil(filterdata.length / pageitem);
-  console.log(totalPages)
-  const startIndex = (page - 1) * pageitem;
-  const endIndex = startIndex + pageitem;
-  const PageData = filterdata.slice(startIndex, endIndex);
-  console.log(PageData)
+    filterarray(startDate, endDate, Data, consultantType, serchItem);
+  }, [startDate, endDate, consultantType, Data, serchItem]);
+
+  
+  const totalPages = Math.ceil(filterData.length / pageItem);
+  const startIndex = (page - 1) * pageItem;
+  const endIndex = startIndex + pageItem;
+  const PageData = filterData.slice(startIndex, endIndex);
+
+  // table comp Data
+  const tableHead = ["Date of Service","Patient Name","Consultation Type"]
 
   return (
     <section>
@@ -63,7 +71,7 @@ function Table({ startdate, enddate, consultanttype, data }) {
           name="search_by_name"
           placeholder='Search by Patient name'
           value={serchItem}
-          onChange={handleserchitem}
+          onChange={handleSerchItem}
           id="searchbyname" 
           className='outline-none h-10 w-[90%] text-2xl'
         />
@@ -73,56 +81,9 @@ function Table({ startdate, enddate, consultanttype, data }) {
       </div>
 
       <div className="h-[70vh] overflow-y-auto px-4">
-        <table className="w-full table-auto border-collapse">
-          <thead className="bg-[#a7d23c] text-white">
-            <tr>
-              <th className="text-left p-3 text-[18px]">Date of Service</th>
-              <th className="text-left p-3 text-[18px]">Patient Name</th>
-              <th className="text-left p-3 text-[18px]">Consultation Type</th>
-            </tr>
-          </thead>
-          <tbody>
-            {PageData.map((ele, index) => (
-              <tr key={index} className="odd:bg-gray-200 even:bg-white ">
-                <td className="p-3 text-[20px]">{ele.created_at.split(" ")[0]}</td>
-                <td className="p-3 text-[20px]">{ele.full_name.split(".")[0]}</td>
-                <td className="p-3 text-[20px]">{ele.consultation_type}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <div className='mt-5 flex justify-center items-center gap-2'>
-        <button
-          onClick={() => setpage(prev => Math.max(prev - 1, 1))}
-          disabled={page === 1}
-          className={`px-3 py-1 rounded ${page === 1 ? 'bg-gray-300 opacity-0' : ' text-white '}`}
-        >
-          <FaCaretLeft color='blue' size={24}/>
-        </button>
-        {[...Array(totalPages)].map((_, i) => (
-          <button 
-            key={i} 
-            onClick={() => setpage(i + 1)}
-            className={`w-8 border-2 rounded-lg px-2 ${
-              page === i + 1 
-                ? 'bg-[#a7d23c] text-white border-[#a7d23c]' 
-                : 'bg-gray-200 text-black hover:bg-gray-300'
-            }`}
-          >
-            {i +1}
-          </button>
-        ))}
-        <button
-          onClick={() => setpage(prev => Math.min(prev + 1, totalPages))}
-          disabled={page === totalPages}
-          className={`px-3 py-1 rounded ${page === totalPages ? 'bg-gray-300  opacity-0' : ' text-white '}`}
-        >
-                    <FaCaretRight color='blue' size={24}/>
-
-        </button>
-      </div>
+        <CommonTable tableHead={tableHead} PageData={PageData} page={page} setPage={setPage} totalPages={totalPages} isDetails={false}/>
+        </div>
+        
     </section>
   );
 }
