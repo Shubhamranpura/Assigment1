@@ -6,13 +6,12 @@ import PriveteRoutes from './PriveteRoutes';
 import PatientDetails from './Componants/Patient/PatientDetails';
 const index = 0
 function App() {
+  const Token = localStorage.getItem("Token")
   return (
     <div className='min-h-screen'>
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-
-
+        <Route path='/' element={<Home/>}/>
+       <Route path='/login' element={<Login />} /> 
         <Route path='/encounter' element={
           <PriveteRoutes>
             <Encounter />

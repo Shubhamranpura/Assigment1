@@ -3,14 +3,15 @@ import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
 import { FaSearch } from 'react-icons/fa'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import CommonTable from '../Common/CommonTable'
+import { IoRefresh } from 'react-icons/io5'
 
-function PatientTable({ patientData, refferalprogram, selectGender }) {
+function PatientTable({ patientData, referralProgram, selectGender , setReferralProgram , setSelectedReferralOption , setSelectedGender , setGender  }) {
   const itemperpage = 5
   const [filterPatientData, setfilterPatientData] = useState([])
   const [searchItem, setsearchItem] = useState()
   const [page, setPage] = useState(1)
-  const [startDate, setStartDate] = useState('')
-  const [endDate, setEndDate] = useState('')
+  // console.log(handleRefresh())
+  
 
   console.log(selectGender)
 
@@ -24,21 +25,15 @@ function PatientTable({ patientData, refferalprogram, selectGender }) {
     setsearchItem(e.target.value)
   }
 
-  const handleStartDateChange = (e) => {
-    setStartDate(e.target.value)
-  }
-
-  const handleEndDateChange = (e) => {
-    setEndDate(e.target.value)
-  }
+  console.log(referralProgram)
 
   useEffect(() => {
-    const filterPatient = (refferalprogram, patientData, selectGender, searchItem, startDate, endDate) => {
+    const filterPatient = (referralProgram, patientData, selectGender, searchItem) => {
       let finalpatientdata = patientData;
 
-      if (refferalprogram) {
+      if (referralProgram) {
         finalpatientdata = finalpatientdata.filter(
-          (patient) => patient.RefferralProgram.trim() === refferalprogram.trim()
+          (patient) => patient.RefferralProgram.trim() === referralProgram.trim()
         );
       }
 
@@ -60,8 +55,8 @@ function PatientTable({ patientData, refferalprogram, selectGender }) {
       setPage(1)
     };
 
-    filterPatient(refferalprogram, patientData, selectGender, searchItem);
-  }, [refferalprogram, patientData, selectGender, searchItem ]);
+    filterPatient(referralProgram, patientData, selectGender, searchItem);
+  }, [referralProgram, patientData, selectGender, searchItem ]);
 
   const totalPages = Math.ceil(filterPatientData.length / itemperpage);
   const startindex = (page - 1) * itemperpage
@@ -69,7 +64,14 @@ function PatientTable({ patientData, refferalprogram, selectGender }) {
   const PageData = filterPatientData.slice(startindex, endindex)
 
   
- const tableHead = ["Email","Patient Name","Gender" , "Referral Program"]
+ const tableHead = ["Email","Patient Name","Gender" , "Referral Program"];
+ const handleRefresh = () => {
+  setReferralProgram("");
+  setSelectedReferralOption({ value: "", label: "All Referral Program" });
+  setGender(null);
+  setSelectedGender(null);
+  setsearchItem("")
+};
 
 
   return (
@@ -87,6 +89,12 @@ function PatientTable({ patientData, refferalprogram, selectGender }) {
           />
           <button className='absolute right-3 top-3'>
             <FaSearch size={20} />
+          </button>
+          <button
+            className='bg-white w-14 absolute -right-20 shadow-lg flex items-center justify-center shadow-[#525252] py-2 rounded-lg'
+            onClick={handleRefresh}
+          >
+            <IoRefresh color='green' size={24} />
           </button>
         </div>
       </div>
