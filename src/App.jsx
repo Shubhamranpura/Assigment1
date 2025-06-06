@@ -1,18 +1,15 @@
 import { Route, Routes } from 'react-router-dom';
-import Home from './Componants/Home/Home';
-import Login from './Componants/Auth/Login';
-import Encounter from './Componants/Encounter/Encounter';
+import Login from './Components/Auth/Login';
+import Encounter from './Components/Encounter/Encounter';
 import PriveteRoutes from './PriveteRoutes';
-import PatientDetails from './Componants/Patient/PatientDetails';
-const index = 0
+import PatientDetails from './Components/Patient/PatientDetails';
 function App() {
   const Token = localStorage.getItem("Token")
   return (
     <div className='min-h-screen'>
       <Routes>
-        <Route path='/' element={<Home/>}/>
        <Route path='/login' element={<Login />} /> 
-        <Route path='/encounter' element={
+        <Route path='/' element={
           <PriveteRoutes>
             <Encounter />
           </PriveteRoutes>

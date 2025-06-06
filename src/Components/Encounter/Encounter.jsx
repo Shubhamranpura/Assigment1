@@ -26,6 +26,7 @@ function Encounter() {
     } else {
       navigate("/login");
     }
+    setError({})
   }, [navigate]);
 
   useEffect(() => {
@@ -39,8 +40,16 @@ function Encounter() {
       } else {
         setError({});
       }
+
     }
   }, [startDate, endDate]);
+
+  useEffect(() => {
+    if (!startDate || !endDate) {
+      setError({});
+    }
+  }, [startDate, endDate]);
+
 
   const option = [
     { value: "", label: "All Consultation Type" },
@@ -48,6 +57,8 @@ function Encounter() {
     { value: "CDT Consultation", label: "CDT Consultation" },
     { value: "FH Test", label: "FH Test" }
   ];
+
+
 
 
   const handleSelectionChange = (selected) => {
@@ -61,6 +72,7 @@ function Encounter() {
     localStorage.removeItem("Token");
     navigate("/login");
   };
+
 
 
   return (
@@ -78,7 +90,7 @@ function Encounter() {
       <section className='grid grid-cols-[250px_1fr] gap-5'>
         <aside className='border-2 flex flex-col gap-2 m-2 rounded-lg p-4 border-blue-500 h-[90vh]'>
           <div className={`${!isPatientTab ? 'bg-gray-300 p-2 border-l-4 border-indigo-500 text-indigo-500 text-lg' : 'bg-gray-300 p-2'}`}>
-            <button onClick={() => navigate('/encounter')}>Encounters</button>
+            <button onClick={() => navigate('/')}>Encounters</button>
           </div>
 
           <div className={`${isPatientTab ? 'bg-gray-300 p-2 border-l-4 border-indigo-500 text-indigo-500 text-lg' : 'bg-gray-300 p-2'}`}>

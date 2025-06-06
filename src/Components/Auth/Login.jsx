@@ -17,7 +17,7 @@ function Login() {
     const result = data.find((user) => user.emailid === formdata.get("user_email") && user.password === formdata.get("user_password"))
     console.log(result)
     if (result) {
-      navigate('/encounter')
+      navigate('/')
       const token = btoa(`${result.username}${result.userpassword}`)
       console.log(token)
       localStorage.setItem("Curruser", JSON.stringify(result.username))
