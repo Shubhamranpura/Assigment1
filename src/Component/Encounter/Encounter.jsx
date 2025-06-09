@@ -30,10 +30,11 @@ function Encounter() {
   }, [navigate]);
 
   useEffect(() => {
+    
     if (startDate && endDate) {
       const start = new Date(startDate);
       const end = new Date(endDate);
-      if (start > end) {
+      if (start > end && String(end.getFullYear()).length === 4) {
         setError({ dateError: "Please select a valid Ending Date" });
       } else {
         setError({});

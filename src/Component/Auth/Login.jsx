@@ -2,11 +2,9 @@ import React, { useState } from 'react'
 import { GoEye } from 'react-icons/go'
 import { LuEyeClosed } from 'react-icons/lu'
 import { useNavigate } from 'react-router-dom'
-import { authdata } from '../../../Userdata/userdata'
 
 function Login() {
-  const [showpassword, setshowpassword] = useState(false)
-  const [error, seterror] = useState({})
+  const [showPassword, setShowPassword] = useState(false)
   const data = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate()
 
@@ -21,13 +19,12 @@ function Login() {
       localStorage.setItem("Curruser", JSON.stringify(result.username))
       localStorage.setItem("Token", JSON.stringify(token))
     }
-    else {
-    }
+   
   }
   return (
 
     <div className='flex items-center h-[100vh]   justify-center'>
-      <section className='bg-blue-500 rounded-lg p-3   text-black sm:w-full  lg:w-[40%] h-[50vh]'>
+      <section className='bg-blue-500 rounded-lg p-3   text-black sm:w-full  lg:w-[38%] h-[50vh]'>
         <p className='text-2xl shadow-md '>Hello User</p>
         <form action="userlogin" onSubmit={handleSubmit}>
           <div className='flex flex-col mt-2'>
@@ -35,18 +32,18 @@ function Login() {
             <input type="email" name="user_email" id="user_email"
               placeholder='Enter your email'
               autoComplete="new-Email"
-              className='mt-2  rounded-lg h-10 w-[80%] p-2 text-2xl' />
+              className='mt-2  rounded-lg h-10  p-2 text-2xl' />
           </div>
           {/* password */}
           <div className='flex flex-col mt-2 relative'>
             <label htmlFor="user_password" className='text-[25px] text-yellow-400'>Password*</label>
-            <input type={showpassword ? "text" : "password"} name="user_password" id="user_password"
+            <input type={showPassword ? "text" : "password"} name="user_password" id="user_password"
               placeholder='Enter your Password'
               autoComplete="new-password"
-              className='mt-2  rounded-lg h-10 w-[80%] p-2 text-2xl' />
-            <span onClick={() => setshowpassword(prev => !prev)}
-              className='absolute lg:top-[56px] lg:right-[130px]  '
-            >{showpassword ? <GoEye fontSize={24} /> : <LuEyeClosed fontSize={24} />}</span>
+              className='mt-2  rounded-lg h-10  p-2 text-2xl' />
+            <span onClick={() => setShowPassword(prev => !prev)}
+              className='absolute lg:top-[56px] lg:right-[10px]  '
+            >{showPassword ? <GoEye fontSize={24} /> : <LuEyeClosed fontSize={24} />}</span>
           </div>
           {/* button */}
           <div className=' flex justify-center items-center  mt-5 h-20 px-5 '>
